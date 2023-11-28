@@ -10,11 +10,22 @@ const thoughtsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now
-    }
+    },
+    username: {
+      type: String,
+      required: true
+    },
+    reactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Reaction'
+      }
+    ]
   },
   {
     toJSON: {
-      getters: true,
+      virtuals: true,
+      getters: true
     },
     id: false
   }
