@@ -1,5 +1,7 @@
 const {Schema, model} = require('mongoose');
+const thoughtSchema = require('./Thought')
 
+// Users are able to have friends that are other users, and can post thoughts/reactions.
 const userSchema = new Schema(
   {
     username: {
@@ -14,7 +16,7 @@ const userSchema = new Schema(
       required: true,
       match:[/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please use a valid email']
     },
-    thoughts: [thoughtsSchema],
+    thoughts: [thoughtSchema],
     friends: [this]      
   },
   {
@@ -24,6 +26,11 @@ const userSchema = new Schema(
     id: false
   }
 )
+
+// A counter for how many friends a user has
+userSchema.virtual('friendCount').get(function(){
+  return this.friends.length;
+});
 
 const User = model('user', userSchema);
 

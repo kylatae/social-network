@@ -1,5 +1,6 @@
 const {Schema, Types} = require('mongoose');
 
+// Reactions are intended to be extentions of thoughts.
 const reactionSchema = new Schema(
   {
     reactionID: {

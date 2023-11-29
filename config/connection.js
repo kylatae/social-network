@@ -1,7 +1,9 @@
+// Using Mongoose to manage the MongoDB
 const {connect, connection} = require('mongoose');
 
-const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/studentsDB'
+// Connecting to Heroku Mongo DB  or Local for testing
+const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/thoughtsDB'
 
 connect(connectionString);
 
-modules.exports = connection
+module.exports = connection
