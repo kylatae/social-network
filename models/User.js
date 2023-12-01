@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose');
-const thoughtSchema = require('./Thought')
 
 // Users are able to have friends that are other users, and can post thoughts/reactions.
 const userSchema = new Schema(
@@ -16,8 +15,16 @@ const userSchema = new Schema(
       required: true,
       match:[/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please use a valid email']
     },
-    thoughts: [thoughtSchema],
-    friends: [this]      
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'thoughts'
+      }
+    ],
+    friends: [{
+      type: Schema.Types.ObjectId,
+      ref: 'user'
+    }]     
   },
   {
     toJSON: {
