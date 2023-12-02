@@ -1,5 +1,4 @@
-const {Thought} = require ('../models');
-const { ObjectId } = require('mongoose').Types;
+const {Thought, User} = require ('../models');
 
 module.exports = {
   async getThoughts(req, res) {
@@ -24,7 +23,12 @@ module.exports = {
   },
   async createThought(req, res) {
     try{
+      const user = await User.findOne({username: req.body.username})
+      if (!user) return res.status(404).json({message: "User Not Found"})
+
       const thought = await Thought.create(req.body);
+      const userThoughts = [...user.thoughts, thought._id]
+      const editUser = await User.findOneAndUpdate({username: req.body.username}, {thoughts: userThoughts},{new: true})
       res.json(thought);
     } catch (err) {
       res.status(500).json(err);
@@ -50,11 +54,8 @@ module.exports = {
   },
   async createReaction(req, res){
     try{
-      const thought = await Thought.findOneandUpdate(
-        {_id: req.params.thoughtID},
-        {$addToSet: {assignments: req.body}},
-        {runValidators: true, new: true})
-
+      const thought = await Thought.findOneAndUpdate({_id: req.params.thoughtID},{$addToSet: {reactions: req.body}},{runValidators: true, new: true})
+      console.log(thought)
       if (!thought){
         return res.status(404).json({message: "No thought found with that ID"})
       }
@@ -65,12 +66,10 @@ module.exports = {
   },
   async deleteReaction(req, res){
     try{
-      const thought = await Thought.findOneAndUpdate(
-        {_id: req.params.thoughtID},
-        {$pull: {reaction:{reactionID: req.params.reactionID}}},
-        {runValidators: true, new: true}
-      )
+      console.log (req.params.reactionID)
 
+      const thought = await Thought.findOneAndUpdate({_id: req.params.thoughtID},{$pull: {reactions:{_id: req.params.reactionID}}},{runValidators: true, new: true})
+      
       if (!thought){
         return res.status(404).json({message: "No thought found with that ID"})
       }
