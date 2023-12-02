@@ -41,4 +41,4 @@
 ![site review](./assets/readme.png)
 
 Repo Link:[https://github.com/kylatae/social-network](https://github.com/kylatae/social-network)
-Deployed Link: [https://kylatae-tech-blog-73057df98322.herokuapp.com/](https://kylatae-tech-blog-73057df98322.herokuapp.com/)
+Demo Video Location: [https://github.com/kylatae/social-network/tree/main/assets](https://github.com/kylatae/social-network/tree/main/assets)
